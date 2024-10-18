@@ -8,4 +8,15 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=./lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
+command -v swift >/dev/null 2>&1 || {
+	echo >&2 "Missing dependency swift. See Dependencies section in README."
+	exit 1
+}
+
+cd "$ASDF_DOWNLOAD_PATH"
+
+swift build -c release
+
+cd ..
+
 install_version "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
